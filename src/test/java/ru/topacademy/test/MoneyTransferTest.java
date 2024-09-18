@@ -59,4 +59,36 @@ public class MoneyTransferTest {
         Assertions.assertEquals(expectedSecondCardBalance, actualSecondCardBalance);
     }
 
+    @Test
+    public void shouldTransferMoneyOneToOne() {
+        int amount = 5000;
+        var firstCard = getFirstCardInfo();
+        var secondCard = getSecondCardInfo();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var transfer = dashboardPage.selectCardToTransfer(firstCard);
+        transfer.validTransfer(String.valueOf(amount), firstCard);
+        transfer.invalidCard();
+        var actualFirstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var actualSecondCardBalance = dashboardPage.getCardBalance(secondCard);
+        Assertions.assertEquals(firstCardBalance, actualFirstCardBalance);
+        Assertions.assertEquals(secondCardBalance, actualSecondCardBalance);
+    }
+
+    @Test
+    public void shouldErrorTransferMoreLimit() {
+        int amount = 50000;
+        var firstCard = getFirstCardInfo();
+        var secondCard = getSecondCardInfo();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var transfer = dashboardPage.selectCardToTransfer(firstCard);
+        transfer.validTransfer(String.valueOf(amount), secondCard);
+        transfer.errorLimit();
+        var actualFirstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var actualSecondCardBalance = dashboardPage.getCardBalance(secondCard);
+        Assertions.assertEquals(firstCardBalance, actualFirstCardBalance);
+        Assertions.assertEquals(secondCardBalance, actualSecondCardBalance);
+    }
+
 }
