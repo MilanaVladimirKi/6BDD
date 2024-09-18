@@ -41,4 +41,22 @@ public class MoneyTransferTest {
         Assertions.assertEquals(expectedFirstCardBalance, actualFirstCardBalance);
         Assertions.assertEquals(expectedSecondCardBalance, actualSecondCardBalance);
     }
+
+    @Test
+    public void shouldTransferMoneyTwoToOne() {
+        int amount = 10000;
+        var firstCard = getFirstCardInfo();
+        var secondCard = getSecondCardInfo();
+        var firstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var secondCardBalance = dashboardPage.getCardBalance(secondCard);
+        var expectedFirstCardBalance = firstCardBalance + amount;
+        var expectedSecondCardBalance = secondCardBalance - amount;
+        var transfer = dashboardPage.selectCardToTransfer(firstCard);
+        dashboardPage = transfer.validTransfer(String.valueOf(amount), secondCard);
+        var actualFirstCardBalance = dashboardPage.getCardBalance(firstCard);
+        var actualSecondCardBalance = dashboardPage.getCardBalance(secondCard);
+        Assertions.assertEquals(expectedFirstCardBalance, actualFirstCardBalance);
+        Assertions.assertEquals(expectedSecondCardBalance, actualSecondCardBalance);
+    }
+
 }
