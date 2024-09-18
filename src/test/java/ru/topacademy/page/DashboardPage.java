@@ -18,7 +18,7 @@ import javax.swing.text.Element;
 public class DashboardPage {
     private ElementsCollection cards = $$(".list__item div");
     private String balanceStart = "баланс: ";
-    private String balanceFinish = " p. ";
+    private String balanceFinish = " р.";
     private SelenideElement header = $("[data-test-id=dashboard]");
 
     public DashboardPage() {
